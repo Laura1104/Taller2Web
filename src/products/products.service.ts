@@ -1,13 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common'; //Injectable es que lo puedo usar en otros lados
+//Se importan los Dtos
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
+
+//Defino la forma del producto
 export interface Product {
   id: number;
   name: string;
   price: number;
   description: string;
 }
+
+
 
 @Injectable()
 export class ProductsService {
@@ -16,12 +21,19 @@ export class ProductsService {
     { id: 1, name: 'Laptop', price: 999.99, description: 'A powerful laptop' },
     { id: 2, name: 'Mouse', price: 29.99, description: 'Wireless mouse' },
   ];
+
+  //contador ids unicos
   private nextId = 3;
 
+
+  //CRUD
+  //Devuelvo todos los productos (array completo)
   findAll(): Product[] {
     return this.products;
   }
 
+
+  //Busco un producto por su id
   findOne(id: number): Product {
     const product = this.products.find((p) => p.id === id);
     if (!product) {
@@ -30,6 +42,7 @@ export class ProductsService {
     return product;
   }
 
+  //creo producto a partir de los datos que vienen del request
   create(dto: CreateProductDto): Product {
     const product: Product = {
       id: this.nextId++,
@@ -41,12 +54,13 @@ export class ProductsService {
     return product;
   }
 
+  //Actualizo un producto que ya existe
   update(id: number, dto: UpdateProductDto): Product {
     const product = this.findOne(id); // reuses findOne – throws if not found
     Object.assign(product, dto);
     return product;
   }
-
+// elimina un producto del array
   remove(id: number): Product {
     const product = this.findOne(id);
     this.products = this.products.filter((p) => p.id !== id);

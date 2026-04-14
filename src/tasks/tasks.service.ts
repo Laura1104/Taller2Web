@@ -20,10 +20,13 @@ export class TasksService {
   ];
   private nextId = 4;
 
-  findAll(): Task[] {
-    return this.tasks;
+  findAll(status?: string): Task[] {
+  if (status) {
+    return this.tasks.filter((t) => t.status === status);
   }
-
+  return this.tasks;
+  }
+  
   findOne(id: number): Task {
     const task = this.tasks.find((t) => t.id === id);
     if (!task) throw new NotFoundException(`Task #${id} not found`);

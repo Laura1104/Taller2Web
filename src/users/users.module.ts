@@ -8,8 +8,11 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
+import { TasksModule } from 'src/tasks/tasks.module';
 
 @Module({
-  // TODO: register the controller and the service
+  imports: [TasksModule],
+  controllers: [UsersController],
+  providers: [UsersService],
 })
 export class UsersModule {}

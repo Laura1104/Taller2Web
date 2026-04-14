@@ -1,3 +1,4 @@
+//se importan decoradores de NestJS para definir las rutas
 import {
   Controller,
   Get,
@@ -15,25 +16,26 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 // @Controller sets the base path for all routes in this class
-@Controller('products')
+@Controller('products') //todas las rutas de esa clase empiezan con /products
 export class ProductsController {
   // NestJS injects the service automatically via the constructor
+  //Inyecto dependencia: crea product service y lo pasa acá
   constructor(private readonly productsService: ProductsService) {}
 
-  // GET /products
+  // GET /products devuelvo todos
   @Get()
   findAll() {
     return this.productsService.findAll();
   }
 
-  // GET /products/:id
+  // GET /products/:id devuelvo 1
   // ParseIntPipe converts the string param to a number and throws 400 if invalid
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findOne(id);
   }
 
-  // POST /products
+  // POST /products creo uno nuevo
   // @Body() extracts the request body; ValidationPipe validates it against CreateProductDto
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -50,7 +52,7 @@ export class ProductsController {
     return this.productsService.update(id, updateProductDto);
   }
 
-  // DELETE /products/:id
+  // DELETE /products/:id elimina 1
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);

@@ -10,13 +10,37 @@
 // Import what you need from 'class-validator' and add the decorators below.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import {
+  IsString,
+  IsNotEmpty,
+  IsEnum,
+  IsNumber,
+  IsPositive,
+  IsOptional,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
+
+export enum TaskStatus {
+  PENDING= 'pending',
+  IN_PROGRESS = 'in-progress',
+  DONE= 'done',
+}
+
 export class CreateTaskDto {
-  // TODO: add validator decorators
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(100)
   title: string;
 
-  // TODO: add validator decorators
+  @IsOptional()
+  @IsString()
+  @MaxLength(300)
   description?: string;
 
-  // TODO: add validator decorators
-  status?: 'pending' | 'in-progress' | 'done';
+  @IsOptional()
+  @IsEnum(TaskStatus)
+  status?: TaskStatus
+
 }

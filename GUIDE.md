@@ -160,10 +160,20 @@ Open each file in this order and read the comments carefully:
 ### Questions to answer before moving on
 
 1. What happens if you send a POST to `/products` with `price: -5`? Why?
+
+NestJS rechaza el request con un error 404 y el producto nunca llega a service porque en DTO está @IsPositive() sobre price y el validationpipe del main revis aeso antes de que el request llegue a controller.
+
 2. What is the role of `ParseIntPipe` in `@Param('id', ParseIntPipe)`?
+Se usa porque los parámetros de la URL siempre llegan como string y ParseIntPipe convierte eser string a un entero antes de entrar al método
+
 3. What would happen without `@IsNotEmpty()` on `name`?
+Se tendría que realizar un producto co name : "" para que pase la validación.
+
 4. Why does the service throw `NotFoundException` instead of returning `null`?
+Porque si retorne null, el controller tendrpia que revisar si llegó null y construir la respuesta de error. Al enviar la exception se responde automáticamete con 404 not found
 5. What is the difference between `@Get()` and `@Get(':id')`?
+@Get() retorna todos son parametros
+@Get(':id') devuelve uno teniendo en cuenta el id 
 
 ---
 
